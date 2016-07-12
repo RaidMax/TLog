@@ -40,7 +40,6 @@ namespace TLog.Forms
 
         public void populateData()
         {
-            needActivationList.Items.Clear();
             classificationDropdown.Items.Clear();
 
             foreach (var c in Enum.GetValues(typeof(Users.User.Type)))
@@ -129,6 +128,13 @@ namespace TLog.Forms
 
             exportTimesheetButton.Enabled = false;
             saveUserButton.Enabled = false;
+            updatePasskeyButton.Enabled = false;
+
+            needActivationList.Items.Clear();
+            matchedUsersList.Items.Clear();
+            matchedUsersList.ClearSelected();
+
+            searchUserText.Text = "";
 
             populateData();
         }
@@ -197,7 +203,7 @@ namespace TLog.Forms
                     if ((Users.User.Type)classificationDropdown.SelectedItem == Users.User.Type.Student_Worker)
                     {
                         newUser = new Users.StudentWorker(fNameText.Text, lNameText.Text, tNumText.Text, secretKey, usernameText.Text, emailText.Text, semesterHours);
-                        if (activatedCheckBox.CheckState == CheckState.Checked)
+                        if (activatedCheckBox.Checked)
                         {
                             newUser.Activate();
                             Manager.Main.Instance.activeUsers.Add(newUser);
@@ -210,7 +216,7 @@ namespace TLog.Forms
                     else
                     {
                         newUser = new Users.Administrator(fNameText.Text, lNameText.Text, tNumText.Text, secretKey, usernameText.Text, emailText.Text);
-                        if (activatedCheckBox.CheckState == CheckState.Checked)
+                        if (activatedCheckBox.Checked)
                         {
                             newUser.Activate();
                             Manager.Main.Instance.activeUsers.Add(newUser);
@@ -230,15 +236,15 @@ namespace TLog.Forms
                 else
                 {
                     Debug.Log("Saving user modifications...");
-                    if (activatedCheckBox.Checked)
+                    if (activatedCheckBox.CheckState == CheckState.Checked && !oldUser.Activated)
                     {
-                        oldUser.Activate();
+                        oldUser.Activate();  
                         Manager.Main.Instance.activeUsers.Add(oldUser);
                     }
-                    else
+                    else if (activatedCheckBox.CheckState != CheckState.Checked)
                     {
                         oldUser.Deactivate();
-                        Manager.Main.Instance.activeUsers.Remove(oldUser);
+                        Manager.Main.Instance.activeUsers.RemoveAll(x => x.userName == oldUser.userName);
                     }
 
                     oldUser.Update(fNameText.Text, lNameText.Text, tNumText.Text, secretKey, usernameText.Text, emailText.Text, (Users.User.Type)classificationDropdown.SelectedItem, semesterHours);
@@ -310,9 +316,11 @@ namespace TLog.Forms
         {
             if (matchedUsersList.SelectedIndex > -1)
             {
-                clearUserInfo();
+                //clearUserInfo();
                 populateUserInfo((Users.User)matchedUsersList.SelectedItem);
                 selectedUser = (Users.User)matchedUsersList.SelectedItem;
+
+                updatePasskeyButton.Enabled = true;
             }
         }
 
@@ -410,16 +418,17 @@ namespace TLog.Forms
 
         private void updatePasskeyButton_Click(object sender, EventArgs e)
         {
-            var result = Interaction.InputBox("Enter new passkey", "Update Passkey!", "default");
+            var result = Interaction.InputBox("Enter new passkey", "Update Passkey!");
+
+
+            if (result == null || result == string.Empty)
+                return;
 
             if (Manager.Main.Instance.activeUsers.Find(x => x.passKey == result) != null)
             {
                 MessageBox.Show("Please enter a different passkey!", "Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-            if (result == null)
-                return;
 
             if (selectedUser.updatePassKey(result))
             {
