@@ -44,6 +44,9 @@ namespace TLog.Forms
 
             foreach (var c in Enum.GetValues(typeof(Users.User.Type)))
                 classificationDropdown.Items.Add(c);
+
+            foreach (Users.StudentWorker s in Manager.Main.Instance.activeUsers.FindAll(x => x.Class == Users.User.Type.Student_Worker && ((Users.StudentWorker)(x)).hoursIssue))
+                hoursIssueList.Items.Add(s);
         }
 
         private void needActivationList_SelectedIndexChanged(object sender, EventArgs e)
@@ -464,6 +467,20 @@ namespace TLog.Forms
                 else
                     searchResultContextMenu.Enabled = true;
             }
+        }
+
+        private void hoursIssueClearBtn_Click(object sender, EventArgs e)
+        {
+            foreach (Users.StudentWorker S in hoursIssueList.Items)
+                S.hoursIssue = false;
+
+            hoursIssueList.Items.Clear();
+        }
+
+        private void hoursIssueList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (hoursIssueList.SelectedIndex > 0 && hoursIssueList.SelectedItem != null)
+                populateUserInfo((Users.User)hoursIssueList.SelectedItem);
         }
     }
 }

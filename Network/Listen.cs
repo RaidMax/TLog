@@ -27,7 +27,9 @@ namespace TLog.Network
         {
             public byte[] Download()
             {
+#if DEBUG == true
                 Debug.Log("Client requested download, now uploading active users...");
+#endif
                 var users = Manager.Serialization.ObjectAsBytes(Manager.Main.Instance.activeUsers);
                 // for deletion syncing
                 Manager.Main.Instance.activeUsers.RemoveAll(x => x.markedForDeletion);
@@ -36,10 +38,14 @@ namespace TLog.Network
 
             public bool Upload(byte[] newUser)
             {
+#if DEBUG == true
                 Debug.Log("Client requested upload, accepting client upload...");
+#endif
 
                 var userObj = Manager.Serialization.BytesAsObject<User>(newUser);
+#if DEBUG == true
                 Debug.Log("Received {0} users from client", Manager.Main.Instance.activeUsers.Count);
+#endif
 
                 return Manager.Main.Instance.mergeUser(userObj);
             }
@@ -60,8 +66,10 @@ namespace TLog.Network
                 Debug.Log("Could not find any sync servers. Attempting to use fallback");
 
                 // non-portable
+#if DEBUG == false
                 if (Environment.MachineName.ToLower() != "ruc328-d01")
                     return new EndpointAddress("http://ruc328-d01:8080/tLog");
+#endif
                 return null;
             }
 

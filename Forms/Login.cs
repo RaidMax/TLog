@@ -29,6 +29,19 @@ namespace TLog
 
         private void updateConnectionIndicator(object sender, EventArgs e)
         {
+            // bad here
+            if (DateTime.Now.Hour > 17 && DateTime.Now.Minute == 0)
+            {
+                var stillLoggedIn = Manager.Main.Instance.activeUsers.FindAll(x => x.Class == Users.User.Type.Student_Worker && x.loggedIn);
+                foreach (Users.StudentWorker s in stillLoggedIn)
+                {
+                    Debug.Log("{0} is still logged in at end of day, flagging...", s.userName);
+                    s.logOff();
+                    s.hoursIssue = true;
+                    Manager.Main.Instance.pendingUpload = true;
+                }
+            }
+
             if (Manager.Cron.failedSaves > 0)
                 connectionIndicatorIcon.BackColor = Color.Yellow;
             else if (Manager.Cron.failedSaves == 0)

@@ -55,6 +55,8 @@
             this.studentInfoLabel = new System.Windows.Forms.Label();
             this.searchUserButton = new System.Windows.Forms.Button();
             this.matchedUsersList = new System.Windows.Forms.ListBox();
+            this.searchResultContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.searchUserText = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dailyHoursLabel = new System.Windows.Forms.Label();
@@ -72,12 +74,13 @@
             this.exportTimesheetButton = new System.Windows.Forms.Button();
             this.activationLabel = new System.Windows.Forms.Label();
             this.updatePasskeyButton = new System.Windows.Forms.Button();
-            this.searchResultContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.deleteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.hoursIssueLabel = new System.Windows.Forms.Label();
+            this.hoursIssueList = new System.Windows.Forms.ListBox();
+            this.hoursIssueClearBtn = new System.Windows.Forms.Button();
             this.studentInfoPanel.SuspendLayout();
+            this.searchResultContextMenu.SuspendLayout();
             this.panel1.SuspendLayout();
             this.editHoursContext.SuspendLayout();
-            this.searchResultContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // needActivationList
@@ -85,7 +88,7 @@
             this.needActivationList.FormattingEnabled = true;
             this.needActivationList.Location = new System.Drawing.Point(1006, 35);
             this.needActivationList.Name = "needActivationList";
-            this.needActivationList.Size = new System.Drawing.Size(120, 498);
+            this.needActivationList.Size = new System.Drawing.Size(120, 225);
             this.needActivationList.TabIndex = 0;
             this.needActivationList.SelectedIndexChanged += new System.EventHandler(this.needActivationList_SelectedIndexChanged);
             // 
@@ -338,6 +341,20 @@
             this.matchedUsersList.Click += new System.EventHandler(this.matchedUsersList_Click);
             this.matchedUsersList.SelectedIndexChanged += new System.EventHandler(this.matchedUsersList_SelectedIndexChanged);
             // 
+            // searchResultContextMenu
+            // 
+            this.searchResultContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem1});
+            this.searchResultContextMenu.Name = "searchResultContextMenu";
+            this.searchResultContextMenu.Size = new System.Drawing.Size(108, 26);
+            // 
+            // deleteToolStripMenuItem1
+            // 
+            this.deleteToolStripMenuItem1.Name = "deleteToolStripMenuItem1";
+            this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
+            this.deleteToolStripMenuItem1.Text = "Delete";
+            this.deleteToolStripMenuItem1.Click += new System.EventHandler(this.deleteToolStripMenuItem1_Click);
+            // 
             // searchUserText
             // 
             this.searchUserText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -496,25 +513,44 @@
             this.updatePasskeyButton.UseVisualStyleBackColor = false;
             this.updatePasskeyButton.Click += new System.EventHandler(this.updatePasskeyButton_Click);
             // 
-            // searchResultContextMenu
+            // hoursIssueLabel
             // 
-            this.searchResultContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.deleteToolStripMenuItem1});
-            this.searchResultContextMenu.Name = "searchResultContextMenu";
-            this.searchResultContextMenu.Size = new System.Drawing.Size(108, 26);
+            this.hoursIssueLabel.AutoSize = true;
+            this.hoursIssueLabel.Location = new System.Drawing.Point(1032, 277);
+            this.hoursIssueLabel.Name = "hoursIssueLabel";
+            this.hoursIssueLabel.Size = new System.Drawing.Size(63, 13);
+            this.hoursIssueLabel.TabIndex = 13;
+            this.hoursIssueLabel.Text = "Hours Issue";
             // 
-            // deleteToolStripMenuItem1
+            // hoursIssueList
             // 
-            this.deleteToolStripMenuItem1.Name = "deleteToolStripMenuItem1";
-            this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
-            this.deleteToolStripMenuItem1.Text = "Delete";
-            this.deleteToolStripMenuItem1.Click += new System.EventHandler(this.deleteToolStripMenuItem1_Click);
+            this.hoursIssueList.FormattingEnabled = true;
+            this.hoursIssueList.Location = new System.Drawing.Point(1006, 306);
+            this.hoursIssueList.Name = "hoursIssueList";
+            this.hoursIssueList.Size = new System.Drawing.Size(120, 199);
+            this.hoursIssueList.TabIndex = 14;
+            this.hoursIssueList.SelectedIndexChanged += new System.EventHandler(this.hoursIssueList_SelectedIndexChanged);
+            // 
+            // hoursIssueClearBtn
+            // 
+            this.hoursIssueClearBtn.BackColor = System.Drawing.Color.Pink;
+            this.hoursIssueClearBtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.hoursIssueClearBtn.Location = new System.Drawing.Point(1006, 510);
+            this.hoursIssueClearBtn.Name = "hoursIssueClearBtn";
+            this.hoursIssueClearBtn.Size = new System.Drawing.Size(120, 23);
+            this.hoursIssueClearBtn.TabIndex = 15;
+            this.hoursIssueClearBtn.Text = "Clear";
+            this.hoursIssueClearBtn.UseVisualStyleBackColor = false;
+            this.hoursIssueClearBtn.Click += new System.EventHandler(this.hoursIssueClearBtn_Click);
             // 
             // Administration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 542);
+            this.Controls.Add(this.hoursIssueClearBtn);
+            this.Controls.Add(this.hoursIssueList);
+            this.Controls.Add(this.hoursIssueLabel);
             this.Controls.Add(this.updatePasskeyButton);
             this.Controls.Add(this.activationLabel);
             this.Controls.Add(this.exportTimesheetButton);
@@ -536,10 +572,10 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Administration_FormClosing);
             this.studentInfoPanel.ResumeLayout(false);
             this.studentInfoPanel.PerformLayout();
+            this.searchResultContextMenu.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.editHoursContext.ResumeLayout(false);
-            this.searchResultContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -591,5 +627,8 @@
         private System.Windows.Forms.Button updatePasskeyButton;
         private System.Windows.Forms.ContextMenuStrip searchResultContextMenu;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem1;
+        private System.Windows.Forms.Label hoursIssueLabel;
+        private System.Windows.Forms.ListBox hoursIssueList;
+        private System.Windows.Forms.Button hoursIssueClearBtn;
     }
 }

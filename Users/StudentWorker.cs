@@ -9,6 +9,7 @@ namespace TLog.Users
         public Dictionary<string, Schedule.WorkWeek> weeksWorked { get; private set;  }
         public int maxHoursPerSemester;
         public int maxHoursPerWeek;
+        public bool hoursIssue;
 
         public StudentWorker(string fName, string lName, string TNum, long sKey, string Un, string Em,  int maxHours) : base (fName, lName, TNum, Un, Em, sKey)
         {
@@ -17,6 +18,7 @@ namespace TLog.Users
             Class = Type.Student_Worker;
             Activated = false;
             maxHoursPerWeek = 28;
+            hoursIssue = false;
         }
 
         public override void Update(string fName, string lName, string TNum, long sKey, string Un, string Em, Type classification, int maxHours)
@@ -67,7 +69,7 @@ namespace TLog.Users
         {
             try
             {
-                return Math.Round(weeksWorked[workID].hoursWorked(), 2);
+                return Math.Round(weeksWorked[workID].hoursWorked(), 1);
             }
             catch (KeyNotFoundException)
             {
@@ -79,7 +81,7 @@ namespace TLog.Users
         {
             try
             {
-                return Math.Round(weeksWorked[Schedule.WorkWeek.todaysWorkID()].dailyHoursWorked(DateTime.Now.DayOfWeek), 2);
+                return Math.Round(weeksWorked[Schedule.WorkWeek.todaysWorkID()].dailyHoursWorked(DateTime.Now.DayOfWeek), 1);
             }
             catch (KeyNotFoundException)
             {
@@ -91,7 +93,7 @@ namespace TLog.Users
         {
             try
             {
-                return Math.Round(weeksWorked[weekID].dailyHoursWorked(Day), 2);
+                return Math.Round(weeksWorked[weekID].dailyHoursWorked(Day), 1);
             }
             catch (KeyNotFoundException)
             {

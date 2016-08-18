@@ -15,6 +15,7 @@ namespace TLog
             {(int)Manager.Main.FailReason.ID_UNRECOGNIZED, "The entered ID is not recognized" },
             {(int)Manager.Main.FailReason.ID_WEEKLYHOURSLIMIT, "The entered ID has reached the maximum clocked hours this week" },
             {(int)Manager.Main.FailReason.ID_SEMESTERLYHOURSLIMIT, "The entered ID has reached the maximum clocked hours this week" },
+            {(int)Manager.Main.FailReason.ID_NOTALLOWED, "Administrators must use secure authentication" },
         };
         
         public static string getString(int errorCode)
