@@ -22,6 +22,7 @@ namespace TLog.Manager
 
         public enum FailReason
         {
+            OFFICE_CLOSED,
             ID_INVALID,
             ID_INACTIVE,
             ID_NOTALLOWED,
@@ -262,6 +263,7 @@ namespace TLog.Manager
         {
             var Result = new LoginResult();
             Result.success = false;
+            Result.error = FailReason.NULL;
             Result.sessionTime = new TimeSpan();
 
             try
@@ -317,12 +319,18 @@ namespace TLog.Manager
 
                 else
                 {
-                    Result.success = true;
-                    Result.error = FailReason.NULL;
                     Result.type = (findUser.loggedIn) ? AuthType.LOG_OFF : AuthType.LOG_ON;
 
                     if (findUser.Class == Users.User.Type.Student_Worker)
                     {
+
+                        if (DateTime.Now.Hour >= 12 && DateTime.Now.Hour < 1)
+                        {
+                            Result.error = FailReason.OFFICE_CLOSED;
+                            Result.success = false;
+                            return Result;
+                        }
+
                         var sw = (Users.StudentWorker)(findUser);
                         if (sw.weeklyHours() >= sw.maxHoursPerWeek)
                         {
@@ -347,17 +355,23 @@ namespace TLog.Manager
                         }
                     }
 
-                    if (findUser.loggedIn)
-                    {
-                        findUser.logOff();
-                        pendingUpload = true;
-                        Result.sessionTime = findUser.lastLogoff - findUser.lastLogon;
-                    }
+                    if (Result.error == FailReason.NULL)
+                        Result.success = true;
 
-                    else
+                    if (Result.success)
                     {
-                        findUser.logOn();
-                        pendingUpload = true;
+                        if (findUser.loggedIn)
+                        {
+                            findUser.logOff();
+                            pendingUpload = true;
+                            Result.sessionTime = findUser.lastLogoff - findUser.lastLogon;
+                        }
+
+                        else
+                        {
+                            findUser.logOn();
+                            pendingUpload = true;
+                        }
                     }
                 }
 

@@ -137,7 +137,7 @@ namespace TLog.Users
 
         public bool Search(string searchTerm)
         {
-            if (firstName.Contains(searchTerm) || lastName.Contains(searchTerm) || userName.Contains(searchTerm) || Email.Contains(searchTerm) || ID.ToString().Contains(searchTerm))
+            if (firstName.ToLower().Contains(searchTerm) || lastName.ToLower().Contains(searchTerm) || userName.ToLower().Contains(searchTerm) || Email.ToLower().Contains(searchTerm) || ID.ToString().ToLower().Contains(searchTerm))
                 return true;
             return false;
         }

@@ -362,6 +362,7 @@
             this.searchUserText.Name = "searchUserText";
             this.searchUserText.Size = new System.Drawing.Size(120, 20);
             this.searchUserText.TabIndex = 5;
+            this.searchUserText.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.searchUserText_KeyPress);
             // 
             // panel1
             // 

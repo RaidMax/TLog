@@ -9,6 +9,7 @@ namespace TLog
     {
         private static Dictionary<int, string> CODES = new Dictionary<int, string>
         {
+            {(int)Manager.Main.FailReason.OFFICE_CLOSED, "The office is currently closed." },
             {(int)Manager.Main.FailReason.ID_INACTIVE, "The entered ID is inactive." },
             {(int)Manager.Main.FailReason.ID_WAITINGFORACTIVATION, "The entered ID is awaiting activation" },
             {(int)Manager.Main.FailReason.ID_INVALID, "The entered ID is invalid." },

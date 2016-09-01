@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Discovery;
 using TLog.Users;
@@ -67,8 +63,8 @@ namespace TLog.Network
 
                 // non-portable
 #if DEBUG == false
-                if (Environment.MachineName.ToLower() != "ruc328-d01")
-                    return new EndpointAddress("http://ruc328-d01:8080/tLog");
+                if (Environment.MachineName.ToLower() != "ruc328-m08")
+                    return new EndpointAddress("http://ruc328-m08:8080/tLog");
 #endif
                 return null;
             }

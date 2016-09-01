@@ -38,6 +38,7 @@
             this.errorMessageLabel = new System.Windows.Forms.Label();
             this.currentTimeLabel = new System.Windows.Forms.Label();
             this.connectionIndicatorIcon = new System.Windows.Forms.Label();
+            this.activeUserList = new System.Windows.Forms.ListBox();
             this.loginPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoPicture)).BeginInit();
             this.SuspendLayout();
@@ -158,6 +159,18 @@
             this.connectionIndicatorIcon.Size = new System.Drawing.Size(25, 25);
             this.connectionIndicatorIcon.TabIndex = 7;
             // 
+            // activeUserList
+            // 
+            this.activeUserList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.activeUserList.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.activeUserList.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.activeUserList.ForeColor = System.Drawing.Color.White;
+            this.activeUserList.FormattingEnabled = true;
+            this.activeUserList.Location = new System.Drawing.Point(0, 0);
+            this.activeUserList.Name = "activeUserList";
+            this.activeUserList.Size = new System.Drawing.Size(120, 182);
+            this.activeUserList.TabIndex = 8;
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -165,8 +178,9 @@
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImage = global::TLog.Properties.Resources.login_bg;
             this.ClientSize = new System.Drawing.Size(1280, 720);
-            this.Controls.Add(this.connectionIndicatorIcon);
             this.Controls.Add(this.errorMessageLabel);
+            this.Controls.Add(this.activeUserList);
+            this.Controls.Add(this.connectionIndicatorIcon);
             this.Controls.Add(this.currentTimeLabel);
             this.Controls.Add(this.logoPicture);
             this.Controls.Add(this.loginPanel);
@@ -195,6 +209,7 @@
         private System.Windows.Forms.Label errorMessageLabel;
         private System.Windows.Forms.Label currentTimeLabel;
         private System.Windows.Forms.Label connectionIndicatorIcon;
+        private System.Windows.Forms.ListBox activeUserList;
     }
 }
 

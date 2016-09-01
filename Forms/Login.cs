@@ -30,7 +30,7 @@ namespace TLog
         private void updateConnectionIndicator(object sender, EventArgs e)
         {
             // bad here
-            if (DateTime.Now.Hour > 17 && DateTime.Now.Minute == 0)
+            if (DateTime.Now.Hour > 16 && DateTime.Now.Minute == 0)
             {
                 var stillLoggedIn = Manager.Main.Instance.activeUsers.FindAll(x => x.Class == Users.User.Type.Student_Worker && x.loggedIn);
                 foreach (Users.StudentWorker s in stillLoggedIn)
@@ -41,6 +41,17 @@ namespace TLog
                     Manager.Main.Instance.pendingUpload = true;
                 }
             }
+
+            if (DateTime.Now.Hour == 12 && DateTime.Now.Minute == 0)
+            {
+                foreach (Users.StudentWorker s in Manager.Main.Instance.activeUsers.FindAll(x => x.Class == Users.User.Type.Student_Worker && x.loggedIn))
+                {
+                    Debug.Log("Logging off {0} for lunch...", s.userName);
+                    s.logOff();
+                }
+            }
+
+            refreshUserCount();
 
             if (Manager.Cron.failedSaves > 0)
                 connectionIndicatorIcon.BackColor = Color.Yellow;
@@ -55,11 +66,9 @@ namespace TLog
 
         private void refreshUserCount()
         {
-            string newStr = String.Empty;
-            foreach (var u in Manager.Main.Instance.onlineUsers())
-                newStr += u.firstName + Environment.NewLine;
-
-           // activeUsers.Text = newStr;
+            activeUserList.Items.Clear();
+            foreach (var u in Manager.Main.Instance.activeUsers.FindAll(x => x.loggedIn))
+                activeUserList.Items.Add(u.ToString());
         }
 
         private void hideControl(Control ctrl, int time)
@@ -95,7 +104,7 @@ namespace TLog
             {
                 errorMessageLabel.Show();
                 errorMessageLabel.Text = ErrorCodes.getString(anc.error);
-                hideControl(errorMessageLabel, 6);
+                hideControl(errorMessageLabel, 3);
 
                 if (anc.error == Manager.Main.FailReason.ID_INACTIVE)
                 {
@@ -108,8 +117,6 @@ namespace TLog
                     }
                 }
             }
-
-            refreshUserCount();
         }
 
         private void userIDTextbox_KeyUp(object sender, KeyEventArgs e)

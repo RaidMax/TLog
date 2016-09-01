@@ -41,6 +41,7 @@ namespace TLog.Forms
         public void populateData()
         {
             classificationDropdown.Items.Clear();
+            hoursIssueList.Items.Clear();
 
             foreach (var c in Enum.GetValues(typeof(Users.User.Type)))
                 classificationDropdown.Items.Add(c);
@@ -265,7 +266,7 @@ namespace TLog.Forms
             {
                 matchedUsersList.Items.Clear();
 
-                var users = Manager.Main.Instance.activeUsers.FindAll(u => u.Search(searchUserText.Text));
+                var users = Manager.Main.Instance.activeUsers.FindAll(u => u.Search(searchUserText.Text.ToLower()));
                 if (users.Count > 0)
                     foreach (var u in users)
                         matchedUsersList.Items.Add(u);
@@ -479,8 +480,14 @@ namespace TLog.Forms
 
         private void hoursIssueList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (hoursIssueList.SelectedIndex > 0 && hoursIssueList.SelectedItem != null)
+            if (hoursIssueList.SelectedIndex > -1 && hoursIssueList.SelectedItem != null)
                 populateUserInfo((Users.User)hoursIssueList.SelectedItem);
+        }
+
+        private void searchUserText_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (int)Keys.Return)
+                searchUserButton_Click(sender, e);
         }
     }
 }
