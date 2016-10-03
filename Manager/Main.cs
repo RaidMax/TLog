@@ -109,6 +109,12 @@ namespace TLog.Manager
                 throw new FatalException("Starting Manager failed - " + E.Message);
             }
 
+            catch (System.ServiceModel.CommunicationException E)
+            {
+                onExit(null, null);
+                throw new FatalException("Starting Manager failed - " + E.Message);
+            }
+
             try
             {
                 if (Files.Exists("activeUsers.db") && serverSync == null)
@@ -137,8 +143,9 @@ namespace TLog.Manager
         {
             Debug.Log("tLog Manager shutting down...");
 
-            foreach (Users.User loggedUser in activeUsers.FindAll(u => u.loggedIn  == true))
-                loggedUser.logOff();
+            if (serviceServer != null)
+                foreach (Users.User loggedUser in activeUsers.FindAll(u => u.loggedIn == true))
+                    loggedUser.logOff();
 
             if (serviceServer != null)
                 serviceServer.Close();

@@ -49,7 +49,7 @@ namespace TLog.Network
 
         public static EndpointAddress findServer()
         {
-            Debug.Log("Looking for sync servers...");
+            /*Debug.Log("Looking for sync servers...");
 
             var discoveryClient = new DiscoveryClient(new UdpDiscoveryEndpoint());
             var criteria = new FindCriteria(typeof(ISync));
@@ -62,15 +62,15 @@ namespace TLog.Network
                 Debug.Log("Could not find any sync servers. Attempting to use fallback");
 
                 // non-portable
-#if DEBUG == false
-                if (Environment.MachineName.ToLower() != "ruc328-m08")
-                    return new EndpointAddress("http://ruc328-m08:8080/tLog");
-#endif
-                return null;
-            }
+#if DEBUG == false*/
+            if (Environment.MachineName.ToLower() != "ruc328-m08")
+                return new EndpointAddress("http://ruc328-m08:8080/tLog");
+//#endif
+            return null;
+        /*
 
             else
-                return syncServices.Endpoints[0].Address;
+                return syncServices.Endpoints[0].Address;*/
         }
 
         public static ServiceHost Start()
@@ -117,6 +117,7 @@ namespace TLog.Network
 
                 var myBinding = new BasicHttpBinding();
                 myBinding.SendTimeout = new TimeSpan(0, 0, 5);
+                myBinding.MaxReceivedMessageSize = Int32.MaxValue;
                 var myEndpoint = server;
                 var myChannelFactory = new ChannelFactory<ISync>(myBinding, myEndpoint);
 

@@ -343,12 +343,19 @@ namespace TLog.Forms
             Manager.Main.Instance.pendingUpload = true;
         }
 
-
         public void onDatePicked(object sender, EventArgs e)
         {
             var button = (Button)sender;
             var form = (DatePicker)button.Parent;
+
+            if (form.endDateTimePicker.Value < form.startDateTimePicker.Value)
+            {
+                MessageBox.Show("Please select a positive amount of time!", "Error picking date", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             var selectedShift = new Schedule.Shift(form.startDateTimePicker.Value, form.endDateTimePicker.Value);
+
 
             // datepicker used to modify hours
             if (selectedShift.timeWorked < (DateTime.Now - DateTime.Now.AddDays(-1)))
